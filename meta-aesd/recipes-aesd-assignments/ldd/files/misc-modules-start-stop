@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    start)
+        echo "loading scull faulty hello"
+        cd /lib/modules/$(uname -r)/
+        scull_load
+        module_load faulty
+        modprobe hello
+    ;;
+    stop)
+        echo "unloading scull faulty hello"
+        cd /lib/modules/$(uname -r)/
+        scull_unload
+        module_unload faulty
+        modprobe -r hello
+    ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
+
+exit 0
